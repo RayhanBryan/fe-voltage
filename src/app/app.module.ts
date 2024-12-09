@@ -15,9 +15,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DataGeneratorFnComponent } from './data-generator-fn/data-generator-fn.component';
 import { ErrorDialogComponent } from './shared/error-dialog/error-dialog.component';
+import { HeaderComponent } from './shared/header/header.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @NgModule({
-  declarations: [AppComponent, DataGeneratorFnComponent, ErrorDialogComponent],
+  declarations: [AppComponent, DataGeneratorFnComponent, ErrorDialogComponent, HeaderComponent, FooterComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

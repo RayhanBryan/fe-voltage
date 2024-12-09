@@ -1,0 +1,8 @@
+.topbar {
+  background-color: #ffffff; /* Warna latar belakang */
+  padding: 0.5rem 1rem; /* Spasi di sekitar konten */
+  position: sticky; /* Tetap di atas saat di-scroll */
+  top: 0;
+  z-index: 1030; /* Pastikan topbar berada di atas elemen lainnya */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Bayangan di bawah */
+}
