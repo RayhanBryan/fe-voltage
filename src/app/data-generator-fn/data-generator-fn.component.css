@@ -57,3 +57,7 @@
 ::ng-deep .p-inputnumber-input {
   width: 100% !important;
 }
+
+::ng-deep tbody tr {
+  border-bottom: 10px solid #f9fafb;
+}

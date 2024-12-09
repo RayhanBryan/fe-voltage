@@ -203,7 +203,7 @@ export class DataGeneratorFnComponent {
       tableName: this.tableName === '' ? 'dummy_table' : this.tableName,
       totalRows: fileRows,
       fileName: this.fileName,
-      fileTypeDestination: '',
+      fileTypeDestination: this.fileFormat,
       listColumnDetails: duplicatedWithoutId,
     };
     this.dataGeneratorService

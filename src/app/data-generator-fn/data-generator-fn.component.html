@@ -15,7 +15,10 @@
     </div>
   </nav>
   <div class="px-3 pt-2">
-    <div class="card card-table rounded-3">
+    <div
+      class="card card-table rounded-3 px-5"
+      style="background-color: #f9fafb"
+    >
       <p-table
         [value]="products"
         [columns]="cols"
@@ -81,11 +84,10 @@
             <td>
               <p-button
                 icon="pi pi-trash"
-                severity="danger"
+                severity="secondary"
                 [rounded]="true"
-                [outlined]="true"
                 (onClick)="deleteProduct(rowData)"
-                [style]="{ color: 'black' }"
+                [style]="{ color: 'white' }"
               />
             </td>
           </tr>
@@ -99,9 +101,10 @@
             [text]="true"
             [style]="{
               'font-size': '12px',
-              color: 'black',
+              color: 'white',
               border: '1px #dfe7ef solid',
-              'margin-left': '64px'
+              background: '#283593',
+              width: '300px'
             }"
             (onClick)="addField()"
           />
@@ -113,9 +116,10 @@
             [text]="true"
             [style]="{
               'font-size': '12px',
-              color: 'black',
+              color: 'white',
               border: '1px #dfe7ef solid',
-              'margin-right': '16px'
+              background: '#283593',
+              width: '300px'
             }"
             (onClick)="resetTable()"
           />
@@ -225,7 +229,7 @@
               'font-size': '12px',
               color: 'white',
               border: '1px #dfe7ef solid',
-              background: '#0168e3'
+              background: '#283593'
             }"
             (onClick)="generateData('windows')"
           />
