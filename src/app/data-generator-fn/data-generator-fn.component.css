@@ -1,0 +1,59 @@
+::ng-deep .card-random .p-card:hover {
+  background-color: rgb(52, 55, 57);
+  color: white;
+}
+
+.header-card {
+  padding: 1.25rem 1.25rem 0 1.25rem;
+}
+
+::ng-deep .p-card-content {
+  padding: 0;
+}
+
+.topbar {
+  background-color: #ffffff; /* Warna latar belakang */
+  padding: 0.5rem 1rem; /* Spasi di sekitar konten */
+  position: sticky; /* Tetap di atas saat di-scroll */
+  top: 0;
+  z-index: 1030; /* Pastikan topbar berada di atas elemen lainnya */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Bayangan di bawah */
+}
+
+.topbar-logo h4 {
+  margin: 0;
+  font-weight: bold;
+  color: #007bff; /* Warna biru untuk logo */
+}
+
+.nav-link {
+  color: #555; /* Warna teks navigasi */
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #007bff; /* Warna biru saat hover */
+}
+
+.nav-link.active {
+  font-weight: bold;
+  color: #007bff; /* Warna biru untuk tautan aktif */
+}
+
+.card-table {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+::ng-deep .p-datatable-wrapper {
+  border-radius: 0.5rem !important;
+}
+
+.border-right {
+  border-right: 1px solid #ddd; /* Garis vertikal pembatas */
+}
+
+::ng-deep .p-inputnumber-input {
+  width: 100% !important;
+}

@@ -1,0 +1,218 @@
+import { Component, OnInit } from '@angular/core';
+import { DataGeneratorService } from '../services/data-generator.service';
+import { saveAs } from 'file-saver';
+interface Column {
+  field: string;
+  header: string;
+}
+@Component({
+  selector: 'app-data-generator-fn',
+  templateUrl: './data-generator-fn.component.html',
+  styleUrls: ['./data-generator-fn.component.css'],
+})
+export class DataGeneratorFnComponent {
+  constructor(private dataGeneratorService: DataGeneratorService) {}
+
+  cols!: Column[];
+  randomTypeOptions: any[] = [];
+  dataTypeOptions: any[] = ['Varchar', 'Int', 'Decimal'];
+  products = [
+    {
+      id: 1,
+      columnName: 'id',
+      columnDataType: 'Varchar',
+      randomType: 'rstring',
+      rangeFormatValue: '',
+    },
+    {
+      id: 2,
+      columnName: 'name',
+      columnDataType: 'Varchar',
+      randomType: 'rname',
+      rangeFormatValue: '',
+    },
+    {
+      id: 3,
+      columnName: 'amount',
+      columnDataType: 'Int',
+      randomType: 'rprice',
+      rangeFormatValue: '10-100',
+    },
+  ];
+  visibleRandomTypeOptions: boolean = false;
+  visibleDataTypeOptions: boolean = false;
+  visibleError: boolean = false;
+  duplicatesColumn: string[] = [];
+  indexRandom: number = 0;
+  indexDataType: number = 0;
+  generateWithOptions: string[] = ['Size', 'Rows'];
+  generateWith: string = 'Size';
+  fileSize: number = 500;
+  fileRows: number = 1000;
+  sizeUnit: string = 'MB';
+  sizeUnitOptions: string[] = ['MB', 'GB'];
+  fileName: string = 'dummy-generator';
+  fileFormatOptions: string[] = ['CSV', 'SQL'];
+  fileFormat: string = 'CSV';
+  downloadAs: string = 'Script';
+  downloadAsOptions: any[] = [
+    { name: 'Script', disabled: false },
+    { name: 'File', disabled: true },
+  ];
+  errorMessage: string[] = [];
+  tableName: string = 'dummy_table';
+  dataGenerate: any = {
+    tableName: '',
+    totalRows: 0,
+    fileName: '',
+    fileTypeDestination: '',
+    listColumnDetails: [
+      {
+        columnName: '',
+        columnDataType: '',
+        randomType: '',
+        rangeFormatValue: '',
+      },
+    ],
+  };
+  ngOnInit(): void {
+    this.loadRandomTypeList();
+    this.cols = [
+      { field: 'columnName', header: 'Field Name' },
+      { field: 'columnDataType', header: 'Data Type in Table' },
+      { field: 'randomType', header: 'Random Data Type' },
+      { field: 'rangeFormatValue', header: 'Atribute' },
+    ];
+  }
+
+  loadRandomTypeList() {
+    this.dataGeneratorService.getRandomTypeList().subscribe({
+      next: (data: any) => {
+        this.randomTypeOptions = data; // Simpan data ke variabel
+      },
+      error: (err: any) => {
+        console.error('Gagal mengambil data:', err);
+      },
+    });
+  }
+
+  openRandomTypeDialog(index: any) {
+    this.indexRandom = index;
+    this.visibleRandomTypeOptions = true;
+  }
+  openDataTypeDialog(index: any) {
+    this.indexDataType = index;
+    this.visibleDataTypeOptions = true;
+  }
+  onSelectRandomType(type: any) {
+    this.products[this.indexRandom].randomType = type.randomType;
+    this.visibleRandomTypeOptions = false;
+  }
+  onSelectDataType(type: any) {
+    this.products[this.indexRandom].columnDataType = type;
+    this.visibleDataTypeOptions = false;
+  }
+  addField() {
+    let lastElement = this.products[this.products.length - 1];
+    let newElement = { ...lastElement, id: lastElement.id + 1 };
+    this.products = [...this.products, newElement];
+  }
+  deleteProduct(product: any) {
+    this.products = this.products.filter((val) => val.id !== product.id);
+  }
+  resetTable() {
+    this.products = [
+      {
+        id: 1,
+        columnName: 'id',
+        columnDataType: 'varchar(10)',
+        randomType: 'rstring',
+        rangeFormatValue: '',
+      },
+      {
+        id: 2,
+        columnName: 'name',
+        columnDataType: 'varchar(255)',
+        randomType: 'rname',
+        rangeFormatValue: '',
+      },
+      {
+        id: 3,
+        columnName: 'amount',
+        columnDataType: 'double',
+        randomType: 'rprice',
+        rangeFormatValue: '10-100',
+      },
+    ];
+  }
+  findDuplicateColumnNames(): string[] {
+    const nameCounts: Record<string, number> = {}; // Menyimpan jumlah kemunculan setiap columnName
+    const duplicates: string[] = []; // Menyimpan columnName yang duplikat
+
+    // Hitung jumlah kemunculan setiap columnName
+    this.products.forEach((product) => {
+      nameCounts[product.columnName] =
+        (nameCounts[product.columnName] || 0) + 1;
+    });
+
+    // Temukan columnName yang jumlahnya lebih dari 1
+    for (const [columnName, count] of Object.entries(nameCounts)) {
+      if (count > 1) {
+        duplicates.push(columnName);
+      }
+    }
+
+    return duplicates;
+  }
+
+  generateData(osType: string) {
+    this.duplicatesColumn = this.findDuplicateColumnNames();
+    if (this.duplicatesColumn.length > 0) {
+      this.duplicatesColumn.forEach((x) => {
+        this.errorMessage.push(
+          `Column "${x}" is specified more than once. Column names must be unique.`
+        );
+      });
+    }
+    if (this.generateWith === 'Size' && this.fileSize <= 0) {
+      this.errorMessage.push(`Size must be a positive number.`);
+    } else if (this.generateWith === 'Rows' && this.fileRows <= 0) {
+      this.errorMessage.push(`Rows must be a positive number.`);
+    }
+    // if (!this.fileName) {
+    //   this.errorMessage.push('File name is required.');
+    // }
+    if (this.errorMessage.length > 0) {
+      this.visibleError = true;
+    } else this.downloadFile(osType);
+  }
+  closeDialogError() {
+    this.errorMessage = [];
+    this.visibleError = false;
+  }
+
+  downloadFile(osType: string) {
+    let fileRows = this.fileRows;
+    let fileSize =
+      this.sizeUnit === 'MB'
+        ? this.fileSize * 1048576
+        : this.fileSize * 1073741824;
+    this.generateWith === 'Size' ? (fileRows = 0) : (fileSize = 0);
+    const duplicatedWithoutId = this.products.map(({ id, ...rest }) => rest);
+    this.dataGenerate = {
+      tableName: this.tableName === '' ? 'dummy_table' : this.tableName,
+      totalRows: fileRows,
+      fileName: this.fileName,
+      fileTypeDestination: '',
+      listColumnDetails: duplicatedWithoutId,
+    };
+    this.dataGeneratorService
+      .downloadFile(fileSize, osType, this.dataGenerate)
+      .subscribe((blob) => {
+        saveAs(
+          blob,
+          `${this.fileName === '' ? 'dummy-generator' : this.fileName}.exe`
+        );
+      });
+  }
+}

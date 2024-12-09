@@ -1,0 +1,312 @@
+<div>
+  <nav class="topbar shadow" style="background-color: #283593">
+    <div class="d-flex justify-content-between align-items-center">
+      <div
+        class="topbar-logo d-flex flex-column align-items-center text-center p-0"
+      >
+        <img
+          src="../../assets/images/logo-bri-kecil.png"
+          alt="Logo BRI"
+          class="mb-2"
+          style="width: 100px"
+        />
+        <p style="color: white" class="mb-0">BRI Data Generator - Customers</p>
+      </div>
+    </div>
+  </nav>
+  <div class="px-3 pt-2">
+    <div class="card card-table rounded-3">
+      <p-table
+        [value]="products"
+        [columns]="cols"
+        [tableStyle]="{ width: '100%' }"
+        responsiveLayout="scroll"
+        class="rounded-3"
+      >
+        <!-- Header Tabel -->
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 3rem"></th>
+            <th *ngFor="let col of columns" style="min-width: 150px">
+              {{ col.header }}
+            </th>
+            <th></th>
+          </tr>
+        </ng-template>
+
+        <!-- Body Tabel -->
+        <ng-template
+          pTemplate="body"
+          let-rowData
+          let-columns="columns"
+          let-index="rowIndex"
+        >
+          <tr [pReorderableRow]="index">
+            <td>
+              <span class="pi pi-bars" pReorderableRowHandle></span>
+            </td>
+            <td *ngFor="let col of columns" style="min-width: 150px">
+              <!-- Input Text untuk Mengedit -->
+              <p-dropdown
+                *ngIf="col.field === 'randomType'"
+                [options]="randomTypeOptions"
+                [(ngModel)]="rowData[col.field]"
+                optionLabel="randomType"
+                optionValue="randomType"
+                placeholder="Pilih opsi"
+                (click)="openRandomTypeDialog(index)"
+                [style]="{ width: '100%' }"
+              >
+              </p-dropdown>
+              <p-dropdown
+                *ngIf="col.field === 'columnDataType'"
+                [options]="dataTypeOptions"
+                [(ngModel)]="rowData[col.field]"
+                placeholder="Pilih opsi Data Type"
+                (click)="openDataTypeDialog(index)"
+                [style]="{ width: '100%' }"
+              >
+              </p-dropdown>
+              <input
+                *ngIf="
+                  col.field !== 'randomType' && col.field !== 'columnDataType'
+                "
+                type="text"
+                pInputText
+                [(ngModel)]="rowData[col.field]"
+                placeholder="Edit {{ col.header }}"
+                [style]="{ width: '100%' }"
+              />
+            </td>
+            <td>
+              <p-button
+                icon="pi pi-trash"
+                severity="danger"
+                [rounded]="true"
+                [outlined]="true"
+                (onClick)="deleteProduct(rowData)"
+                [style]="{ color: 'black' }"
+              />
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <div class="row my-3 d-flex justify-content-between">
+        <div class="col-4">
+          <p-button
+            label="Add Another Field"
+            icon="pi pi-plus"
+            [text]="true"
+            [style]="{
+              'font-size': '12px',
+              color: 'black',
+              border: '1px #dfe7ef solid',
+              'margin-left': '64px'
+            }"
+            (onClick)="addField()"
+          />
+        </div>
+        <div class="col-4 d-flex justify-content-end">
+          <p-button
+            label="Reset Table"
+            icon="pi pi-refresh"
+            [text]="true"
+            [style]="{
+              'font-size': '12px',
+              color: 'black',
+              border: '1px #dfe7ef solid',
+              'margin-right': '16px'
+            }"
+            (onClick)="resetTable()"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="px-3 pt-2">
+    <div class="card card-table rounded-3">
+      <div class="row mt-3 px-3 d-flex justify-content-start">
+        <div class="col-6 border-right">
+          <p>Generate With:</p>
+          <p-dropdown
+            [options]="generateWithOptions"
+            [(ngModel)]="generateWith"
+            placeholder="Pilih opsi"
+            [style]="{ width: '100%' }"
+          >
+          </p-dropdown>
+        </div>
+        <div class="col-6">
+          <p>{{ generateWith === "Size" ? "Size:" : "Rows:" }}</p>
+          <div class="d-flex">
+            <p-inputNumber
+              *ngIf="generateWith === 'Rows'"
+              [(ngModel)]="fileRows"
+              [min]="1"
+              [style]="{ width: '100%' }"
+            />
+            <p-inputNumber
+              [(ngModel)]="fileSize"
+              *ngIf="generateWith === 'Size'"
+              mode="decimal"
+              [min]="0.00005"
+              [minFractionDigits]="2"
+              [maxFractionDigits]="5"
+              [style]="{ width: '100%' }"
+            />
+            <p-dropdown
+              *ngIf="generateWith === 'Size'"
+              [options]="sizeUnitOptions"
+              [(ngModel)]="sizeUnit"
+              placeholder=""
+              [style]="{ width: '100%' }"
+              class="ms-2"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3 px-3 d-flex justify-content-start">
+        <div class="col-6 border-right">
+          <p>File Name:</p>
+          <input
+            type="text"
+            pInputText
+            [(ngModel)]="fileName"
+            placeholder="dummy-generator"
+            [style]="{ width: '100%' }"
+          />
+          <!-- <small style="color: red">File name required</small> -->
+        </div>
+        <div class="col-6">
+          <p>Table Name:</p>
+          <input
+            type="text"
+            pInputText
+            [(ngModel)]="tableName"
+            placeholder="dummy_table"
+            [style]="{ width: '100%' }"
+          />
+        </div>
+      </div>
+      <div class="row my-3 px-3 d-flex justify-content-start">
+        <div class="col-6 border-right">
+          <p>Download As:</p>
+          <p-dropdown
+            [options]="downloadAsOptions"
+            [(ngModel)]="downloadAs"
+            placeholder=""
+            [style]="{ width: '100%' }"
+            optionDisabled="disabled"
+            optionLabel="name"
+            optionValue="name"
+          />
+        </div>
+        <div class="col-6">
+          <p>File Format:</p>
+          <p-dropdown
+            [options]="fileFormatOptions"
+            [(ngModel)]="fileFormat"
+            placeholder=""
+            [style]="{ width: '100%' }"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="px-3 pt-2">
+    <div class="card card-table rounded-3">
+      <div class="row my-3 px-3 d-flex justify-content-center">
+        <div class="col-4 d-flex justify-content-end">
+          <p-button
+            label="Generate Data for Windows"
+            icon="pi pi-microsoft"
+            [text]="true"
+            [style]="{
+              'font-size': '12px',
+              color: 'white',
+              border: '1px #dfe7ef solid',
+              background: '#0168e3'
+            }"
+            (onClick)="generateData('windows')"
+          />
+        </div>
+        <div class="col-4 d-flex justify-content-start">
+          <p-button
+            label="Generate Data for Linux"
+            icon="pi pi-ethereum"
+            [text]="true"
+            [style]="{
+              'font-size': '12px',
+              color: 'white',
+              border: '1px #dfe7ef solid',
+              background: '#FFA500'
+            }"
+            (onClick)="generateData('linux')"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  header="Choose a Random Type"
+  [modal]="true"
+  [(visible)]="visibleRandomTypeOptions"
+  [style]="{ width: '80%' }"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+>
+  <div class="row">
+    <div class="col-4 my-2 px-2" *ngFor="let item of randomTypeOptions">
+      <p-card
+        [style]="{ cursor: 'pointer' }"
+        (click)="onSelectRandomType(item)"
+        class="card-random"
+      >
+        <ng-template pTemplate="header">
+          <div class="header-card d-flex justify-content-between">
+            <h2>{{ item.randomType }}</h2>
+            <i
+              class="pi pi-question-circle"
+              [pTooltip]="item.description"
+              tooltipPosition="right"
+            ></i>
+          </div>
+        </ng-template>
+        <p class="m-0 py-0">
+          {{ item.exampleValue }}
+        </p>
+      </p-card>
+    </div>
+  </div>
+</p-dialog>
+
+<p-dialog
+  header="Choose a Data Type"
+  [modal]="true"
+  [(visible)]="visibleDataTypeOptions"
+  [style]="{ width: '80%' }"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+>
+  <div class="row">
+    <div class="col-4 my-2 px-2" *ngFor="let item of dataTypeOptions">
+      <p-card
+        [style]="{ cursor: 'pointer' }"
+        (click)="onSelectDataType(item)"
+        class="card-random"
+      >
+        <ng-template pTemplate="header">
+          <div class="header-card d-flex justify-content-between">
+            <h2>{{ item }}</h2>
+          </div>
+        </ng-template>
+      </p-card>
+    </div>
+  </div>
+</p-dialog>
+
+<app-error-dialog
+  [visible]="visibleError"
+  [errorList]="errorMessage"
+  (onClose)="closeDialogError()"
+></app-error-dialog>

@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+@layer bootstrap-reboot, bootstrap, primeng;
+
+@layer primeng {
+  .p-button.p-button-rounded {
+    border-radius: 2rem !important;
+  }
+  .p-button {
+    border-radius: 6px !important;
+  }
+
+  .p-dropdown-panel ul {
+    padding-left: 0 !important;
+  }
+}
