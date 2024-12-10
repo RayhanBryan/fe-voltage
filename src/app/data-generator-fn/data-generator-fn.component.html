@@ -54,6 +54,8 @@
                 [options]="dataTypeOptions"
                 [(ngModel)]="rowData[col.field]"
                 placeholder="Pilih opsi Data Type"
+                optionLabel="name"
+                optionValue="name"
                 (click)="openDataTypeDialog(index)"
                 [style]="{ width: '100%' }"
               >
@@ -291,9 +293,18 @@
       >
         <ng-template pTemplate="header">
           <div class="header-card d-flex justify-content-between">
-            <h2>{{ item }}</h2>
+            <h2>{{ item.name }}</h2>
           </div>
         </ng-template>
+        <div>
+          <p
+            style="font-size: 12px"
+            class="mb-1"
+            *ngFor="let example of item.example"
+          >
+            {{ example }}
+          </p>
+        </div>
       </p-card>
     </div>
   </div>

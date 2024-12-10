@@ -15,7 +15,48 @@ export class DataGeneratorFnComponent {
 
   cols!: Column[];
   randomTypeOptions: any[] = [];
-  dataTypeOptions: any[] = ['Varchar', 'Int', 'Decimal'];
+  dataTypeOptions: any[] = [
+    {
+      name: 'Varchar',
+      example: ['Jl. Sudirman No. 1', 'john@example.com'],
+      disabled: false,
+    },
+    {
+      name: 'Text',
+      example: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit.'],
+      disabled: true,
+    },
+    {
+      name: 'Int',
+      example: ['42', '99999'],
+      disabled: false,
+    },
+    {
+      name: 'Decimal',
+      example: ['99.99', '0.1234'],
+      disabled: false,
+    },
+    {
+      name: 'Float',
+      example: ['123.45', '1.2e10'],
+      disabled: true,
+    },
+    {
+      name: 'BigInt',
+      example: ['9223372036854775807', '123456789012345'],
+      disabled: true,
+    },
+    {
+      name: 'Time',
+      example: ['10:15:30', '23:59:59'],
+      disabled: true,
+    },
+    {
+      name: 'DateTime',
+      example: ['2024-12-09 10:15:30', '2023-05-01 00:00:00'],
+      disabled: true,
+    },
+  ];
   products = [
     {
       id: 1,
