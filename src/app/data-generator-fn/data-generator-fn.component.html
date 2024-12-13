@@ -38,17 +38,14 @@
             </td>
             <td *ngFor="let col of columns" style="min-width: 150px">
               <!-- Input Text untuk Mengedit -->
-              <p-dropdown
-                *ngIf="col.field === 'randomType'"
-                [options]="randomTypeOptions"
+              <input
+                *ngIf="col.field == 'columnName'"
+                type="text"
+                pInputText
                 [(ngModel)]="rowData[col.field]"
-                optionLabel="randomType"
-                optionValue="randomType"
-                placeholder="Pilih opsi"
-                (click)="openRandomTypeDialog(index)"
+                placeholder="Edit {{ col.header }}"
                 [style]="{ width: '100%' }"
-              >
-              </p-dropdown>
+              />
               <p-dropdown
                 *ngIf="col.field === 'columnDataType'"
                 [options]="dataTypeOptions"
@@ -60,15 +57,26 @@
                 [style]="{ width: '100%' }"
               >
               </p-dropdown>
+              <p-dropdown
+                *ngIf="col.field === 'randomType'"
+                [options]="randomTypeOptions"
+                [(ngModel)]="rowData[col.field]"
+                optionLabel="randomType"
+                optionValue="randomType"
+                placeholder="Pilih opsi"
+                (click)="openRandomTypeDialog(index)"
+                [style]="{ width: '100%' }"
+              >
+              </p-dropdown>
               <input
-                *ngIf="
-                  col.field !== 'randomType' && col.field !== 'columnDataType'
-                "
+                *ngIf="col.field == 'rangeFormatValue'"
                 type="text"
                 pInputText
                 [(ngModel)]="rowData[col.field]"
                 placeholder="Edit {{ col.header }}"
                 [style]="{ width: '100%' }"
+                (keypress)="change(rowData['disableAttribute'])"
+                [disabled]="rowData['disableAttribute']"
               />
             </td>
             <td>

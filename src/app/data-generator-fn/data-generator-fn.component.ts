@@ -64,6 +64,7 @@ export class DataGeneratorFnComponent {
       columnDataType: 'Varchar',
       randomType: 'rstring',
       rangeFormatValue: '',
+      disableAttribute: false,
     },
     {
       id: 2,
@@ -71,6 +72,7 @@ export class DataGeneratorFnComponent {
       columnDataType: 'Varchar',
       randomType: 'rname',
       rangeFormatValue: '',
+      disableAttribute: false,
     },
     {
       id: 3,
@@ -78,6 +80,7 @@ export class DataGeneratorFnComponent {
       columnDataType: 'Int',
       randomType: 'rprice',
       rangeFormatValue: '10-100',
+      disableAttribute: false,
     },
   ];
   visibleRandomTypeOptions: boolean = false;
@@ -125,7 +128,7 @@ export class DataGeneratorFnComponent {
       { field: 'columnName', header: 'Field Name' },
       { field: 'columnDataType', header: 'Data Type in Table' },
       { field: 'randomType', header: 'Random Data Type' },
-      { field: 'rangeFormatValue', header: 'Atribute' },
+      { field: 'rangeFormatValue', header: 'Attribute' },
     ];
   }
 
@@ -150,6 +153,9 @@ export class DataGeneratorFnComponent {
   }
   onSelectRandomType(type: any) {
     this.products[this.indexRandom].randomType = type.randomType;
+    this.products[this.indexRandom].disableAttribute = !type.needAttribute;
+    console.log(this.products);
+    console.log(type.needAttribute);
     this.visibleRandomTypeOptions = false;
   }
   onSelectDataType(type: any) {
@@ -169,23 +175,26 @@ export class DataGeneratorFnComponent {
       {
         id: 1,
         columnName: 'id',
-        columnDataType: 'varchar(10)',
+        columnDataType: 'Varchar',
         randomType: 'rstring',
         rangeFormatValue: '',
+        disableAttribute: false,
       },
       {
         id: 2,
         columnName: 'name',
-        columnDataType: 'varchar(255)',
+        columnDataType: 'Varchar',
         randomType: 'rname',
         rangeFormatValue: '',
+        disableAttribute: false,
       },
       {
         id: 3,
         columnName: 'amount',
-        columnDataType: 'double',
+        columnDataType: 'Int',
         randomType: 'rprice',
         rangeFormatValue: '10-100',
+        disableAttribute: false,
       },
     ];
   }
@@ -269,5 +278,9 @@ export class DataGeneratorFnComponent {
     } else {
       this.sizeUnitOptions[1].disabled = false;
     }
+  }
+
+  change(event: any) {
+    console.log(event);
   }
 }
