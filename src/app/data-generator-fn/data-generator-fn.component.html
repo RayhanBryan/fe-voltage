@@ -145,6 +145,7 @@
               *ngIf="generateWith === 'Size'"
               mode="decimal"
               [min]="0.00005"
+              [max]="downloadAs === 'File' ? 100 : null"
               [minFractionDigits]="2"
               [maxFractionDigits]="5"
               [style]="{ width: '100%' }"
@@ -154,6 +155,9 @@
               [options]="sizeUnitOptions"
               [(ngModel)]="sizeUnit"
               placeholder=""
+              optionLabel="name"
+              optionValue="name"
+              optionDisabled="disabled"
               [style]="{ width: '100%' }"
               class="ms-2"
             />
@@ -194,6 +198,7 @@
             optionDisabled="disabled"
             optionLabel="name"
             optionValue="name"
+            (onChange)="changeDownloadAs($event)"
           />
         </div>
         <div class="col-6">

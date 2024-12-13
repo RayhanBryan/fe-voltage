@@ -91,14 +91,17 @@ export class DataGeneratorFnComponent {
   fileSize: number = 500;
   fileRows: number = 1000;
   sizeUnit: string = 'MB';
-  sizeUnitOptions: string[] = ['MB', 'GB'];
+  sizeUnitOptions: any[] = [
+    { name: 'MB', disabled: false },
+    { name: 'GB', disabled: false },
+  ];
   fileName: string = 'dummy-generator';
   fileFormatOptions: string[] = ['CSV', 'SQL'];
   fileFormat: string = 'CSV';
   downloadAs: string = 'Script';
   downloadAsOptions: any[] = [
     { name: 'Script', disabled: false },
-    { name: 'File', disabled: true },
+    { name: 'File', disabled: false },
   ];
   errorMessage: string[] = [];
   tableName: string = 'dummy_table';
@@ -255,5 +258,16 @@ export class DataGeneratorFnComponent {
           `${this.fileName === '' ? 'dummy-generator' : this.fileName}.exe`
         );
       });
+  }
+
+  changeDownloadAs(event: any) {
+    console.log(event);
+    if (event.value === 'File') {
+      if (this.fileSize > 100) this.fileSize = 100;
+      this.sizeUnit = 'MB';
+      this.sizeUnitOptions[1].disabled = true;
+    } else {
+      this.sizeUnitOptions[1].disabled = false;
+    }
   }
 }
