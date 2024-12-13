@@ -154,12 +154,16 @@ export class DataGeneratorFnComponent {
   onSelectRandomType(type: any) {
     this.products[this.indexRandom].randomType = type.randomType;
     this.products[this.indexRandom].disableAttribute = !type.needAttribute;
+    this.products[this.indexRandom].rangeFormatValue = '';
     console.log(this.products);
     console.log(type.needAttribute);
     this.visibleRandomTypeOptions = false;
   }
   onSelectDataType(type: any) {
-    this.products[this.indexRandom].columnDataType = type;
+    console.log(type);
+    console.log(this.indexDataType);
+    this.products[this.indexDataType].columnDataType = type.name;
+    console.log(this.products);
     this.visibleDataTypeOptions = false;
   }
   addField() {

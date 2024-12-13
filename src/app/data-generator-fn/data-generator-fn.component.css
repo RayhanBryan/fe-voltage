@@ -3,6 +3,10 @@
   color: white;
 }
 
+.card-random {
+  height: 100%;
+}
+
 .header-card {
   padding: 1.25rem 1.25rem 0 1.25rem;
 }

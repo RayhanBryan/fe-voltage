@@ -73,9 +73,12 @@
                 type="text"
                 pInputText
                 [(ngModel)]="rowData[col.field]"
-                placeholder="Edit {{ col.header }}"
+                [placeholder]="
+                  rowData['disableAttribute']
+                    ? 'No attribute needed'
+                    : 'Edit ' + col.header
+                "
                 [style]="{ width: '100%' }"
-                (keypress)="change(rowData['disableAttribute'])"
                 [disabled]="rowData['disableAttribute']"
               />
             </td>
@@ -268,7 +271,7 @@
   <div class="row">
     <div class="col-4 my-2 px-2" *ngFor="let item of randomTypeOptions">
       <p-card
-        [style]="{ cursor: 'pointer' }"
+        [style]="{ cursor: 'pointer', height: '100%' }"
         (click)="onSelectRandomType(item)"
         class="card-random"
       >
@@ -282,7 +285,14 @@
             ></i>
           </div>
         </ng-template>
-        <p class="m-0 py-0">
+        <p
+          class="m-0 py-0"
+          style="
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            font-size: 12px;
+          "
+        >
           {{ item.exampleValue }}
         </p>
       </p-card>
@@ -300,7 +310,7 @@
   <div class="row">
     <div class="col-4 my-2 px-2" *ngFor="let item of dataTypeOptions">
       <p-card
-        [style]="{ cursor: 'pointer' }"
+        [style]="{ cursor: 'pointer', height: '100%' }"
         (click)="onSelectDataType(item)"
         class="card-random"
       >
