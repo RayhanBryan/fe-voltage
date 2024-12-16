@@ -250,6 +250,7 @@ export class DataGeneratorFnComponent {
 
   downloadFile(osType: string) {
     let fileRows = this.fileRows;
+    console.log(this.fileSize)
     let fileSize =
       this.sizeUnit === 'MB'
         ? this.fileSize * 1048576
