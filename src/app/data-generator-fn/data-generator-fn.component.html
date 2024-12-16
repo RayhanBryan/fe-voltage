@@ -1,7 +1,20 @@
 <div style="background-color: #fafafa">
-  <div class="px-3 pt-2">
-    <div class="py-3">
+  <div class="px-3 pt-2 row mx-0 my-2">
+    <div class="py-3 col-12 d-flex justify-content-between">
       <h4 class="fw-bold">Data Generator</h4>
+      <p-button
+        label="Reset Table"
+        icon="pi pi-refresh"
+        [text]="true"
+        [style]="{
+          'font-size': '12px',
+          color: 'white',
+          border: '1px #dfe7ef solid',
+          background: '#283593',
+          width: '150px'
+        }"
+        (onClick)="resetTable()"
+      ></p-button>
     </div>
     <div
       class="card card-table rounded-3 px-5"
@@ -105,32 +118,21 @@
               color: 'white',
               border: '1px #dfe7ef solid',
               background: '#283593',
-              width: '300px'
+              width: '200px'
             }"
             (onClick)="addField()"
           />
         </div>
-        <div class="col-4 d-flex justify-content-end">
-          <p-button
-            label="Reset Table"
-            icon="pi pi-refresh"
-            [text]="true"
-            [style]="{
-              'font-size': '12px',
-              color: 'white',
-              border: '1px #dfe7ef solid',
-              background: '#283593',
-              width: '300px'
-            }"
-            (onClick)="resetTable()"
-          />
-        </div>
+        <div class="col-4 d-flex justify-content-end"></div>
       </div>
     </div>
   </div>
 
-  <div class="px-3 pt-2">
-    <div class="card card-table rounded-3" style="border: 0">
+  <div class="px-3 pt-2 my-2">
+    <div
+      class="card card-table rounded-3"
+      style="background-color: #f9fafb; border: 0"
+    >
       <div class="row mt-3 px-3 d-flex justify-content-start">
         <div class="col-6 border-right">
           <p>Generate With:</p>
@@ -225,8 +227,11 @@
     </div>
   </div>
 
-  <div class="px-3 pt-2">
-    <div class="card card-table rounded-3" style="border: 0">
+  <div class="px-3 pt-2 my-2">
+    <div
+      class="card card-table rounded-3"
+      style="background-color: #f9fafb; border: 0"
+    >
       <div class="row my-3 px-3 d-flex justify-content-center">
         <div class="col-4 d-flex justify-content-end">
           <p-button

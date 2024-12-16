@@ -104,7 +104,7 @@ export class DataGeneratorFnComponent {
   downloadAs: string = 'Script';
   downloadAsOptions: any[] = [
     { name: 'Script', disabled: false },
-    { name: 'File', disabled: false },
+    { name: 'File', disabled: true },
   ];
   errorMessage: string[] = [];
   tableName: string = 'dummy_table';
