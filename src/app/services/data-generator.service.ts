@@ -16,7 +16,7 @@ export class DataGeneratorService {
 
   downloadFile(fileSize: number, osType: string, data: any): Observable<Blob> {
     return this.http.post(
-      `${this.apiUrl}dummy/data/file/generator?totalSize=${fileSize}&osType=${osType}`,
+      `${this.apiUrl}dummy/data/file/generator?requireSize=${fileSize}&osType=${osType}`,
       data,
       {
         responseType: 'blob', // Mendapatkan file sebagai Blob
