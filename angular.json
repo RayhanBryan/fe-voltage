@@ -59,6 +59,16 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "ssl": true,
+            "sslKey": "src/cert/rootCA.key",
+            "sslCert": "src/cert/rootCA.crt",
+            "host": "0.0.0.0",
+            "port": 2937,
+            "allowedHosts": [
+              "sdg.dev.bri.co.id"
+            ]
+          },
           "configurations": {
             "production": {
               "browserTarget": "fe-voltage:build:production"
@@ -69,6 +79,7 @@
           },
           "defaultConfiguration": "development"
         },
+
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
@@ -87,5 +98,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "64148c42-9ea6-48d8-b784-2c6a1fc05aa9"
   }
 }
